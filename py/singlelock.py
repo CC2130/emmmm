@@ -1,4 +1,4 @@
-#!/opt/py3.6/ve1/bin/python3
+#!/usr/bin/env python3
 # encoding : utf-8
 # Filename: SingleLock.py
 
@@ -10,10 +10,17 @@ class SingleLock ():
     '''
     Some work can only keep one process alive in system
     '''
-    def __init__ (self, lockfile='/var/run/SingleLock.pid'):
+    def __init__ (self, lockfile=''):
+        '''
+        You don't care this
+        '''
         self.pid = os.getpid ()
         self.lockfile = lockfile
         self.name = os.path.basename (sys.argv[0])
+        if lockfile == '':
+            self.lockfile = os.path.splitext (self.name)[0] + '.lock'
+        else:
+            self.lockfile = lockfile
 
     def lock (self):
         '''
@@ -58,3 +65,6 @@ class SingleLock ():
                     os.remove (self.lockfile)
 
         return True
+
+if '__main__' == __name__:
+    help (SingleLock)

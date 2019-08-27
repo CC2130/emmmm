@@ -8,15 +8,17 @@ import sys
 import stat
 import shutil
 
-# FileOperation provides some simple funcs
-# some useful checks
-# create new file, dirs
-# copy, move(rename) work
-# listdir and record files and dirs, you can also set the depth
 class FileOperation ():
+    '''
+    FileOperation provides some simple funcs
+    some useful checks
+    create new file, dirs
+    copy, move(rename), delete work
+    listdir and record files and dirs, you can also set the depth
+    '''
     def __init__ (self):
         '''
-        do not need init
+        You don't care this
         '''
         self.path = ''
         self.plist = []
@@ -84,7 +86,7 @@ class FileOperation ():
 
     def remove (self, path):
         '''
-        remove file or dirs, be careful
+        remove file or dir, be careful
         '''
         try:
             if os.path.isdir (path):
@@ -170,7 +172,9 @@ class FileOperation ():
         return False
 
     def _islinking (self, path):
-        # not link file, True
+        '''
+        not link file, True
+        '''
         if not os.path.islink (path):
             return True
 
@@ -179,11 +183,13 @@ class FileOperation ():
         return self.accessable (_realpath)
 
     def isregular (self, path):
-        # is regular file: file, dir, link
+        '''
+        is regular file: file, dir, link
+        '''
         if os.path.isfile (path) or os.path.isdir (path) or os.path.islink (path):
             return True
 
         return False
 
 if '__main__' == __name__:
-    print ('aha')
+    help (FileOperation)

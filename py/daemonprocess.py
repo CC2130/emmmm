@@ -10,8 +10,14 @@ from signal import SIGTERM
 from singlelock import SingleLock
 
 class DaemonProcess ():
+    '''
+    Extends by son class, run as service in system
+    '''
     def __init__ (self):
-        self.lockfile = '/var/run/daemonprocess.pid'
+        '''
+        You don't care this
+        '''
+        self.lockfile = '/var/run/daemonprocess.lock'
         pass
 
     def _locking (self, action=1):
@@ -25,7 +31,7 @@ class DaemonProcess ():
             if self.lockfile:
                 lockfile = self.lockfile
         except Exception as e:
-            name = os.path.splitext (os.path.basename (sys.argv[0]))[0] + '.pid'
+            name = os.path.splitext (os.path.basename (sys.argv[0]))[0] + '.lock'
             lockfile = '/var/run/' + name
 
         # lock work
@@ -65,7 +71,7 @@ class DaemonProcess ():
         '''
         Run as daemon service
         '''
-        self.daemonize ()
+        self._daemonize ()
 
         # lock and run after daemonize
         if not self._locking (1):
@@ -89,7 +95,7 @@ class DaemonProcess ():
         self.start ()
         pass
 
-    def daemonize (self):
+    def _daemonize (self):
         '''
         Double fork, process adopted by init
         '''
@@ -132,8 +138,9 @@ class Demo (DaemonProcess):
         time.sleep (20)
 
 if __name__ == '__main__':
-    d = Demo ()
+    help (DaemonProcess)
+    #d = Demo ()
     # run in front
     #d.run ()
     # run as daemon service
-    d.start ()
+    #d.start ()
