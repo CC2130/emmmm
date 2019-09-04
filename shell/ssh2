@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+
+set HOST [lindex $argv 0]
+if {$argc == 2} {
+    set PORT [lindex $argv 1]
+} else {
+	set PORT 22
+}
+set USER root
+set PASSWORD abc123
+
+spawn ssh -p $PORT $USER@$HOST
+expect {
+        "yes/no" {send "yes\r";exp_continue;}
+         "*password:*" { send "$PASSWORD\r" }
+		 "*]#*"
+        }
+interact
