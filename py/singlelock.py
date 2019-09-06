@@ -44,7 +44,7 @@ class SingleLock ():
         if os.access (self.lockfile, os.R_OK):
             try:
                 os.remove (self.lockfile)
-            except Exception as e:
+            except:
                 pass
 
     def check_lock (self):

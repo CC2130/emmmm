@@ -3,7 +3,6 @@
 # Filename: tarball.py
 
 import os
-import sys
 import tarfile
 
 class Tarball ():
@@ -48,8 +47,7 @@ class Tarball ():
                         tar.add (abspath, relative_path)
 
             tar.close ()
-        except Exception as e:
-            logging.error (e)
+        except:
             return False
         return True
         pass
@@ -73,8 +71,7 @@ class Tarball ():
 
             tar.close ()
             pass
-        except Exception as e:
-            logging.error (e)
+        except:
             return False
 
 if __name__ == '__main__':

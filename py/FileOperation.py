@@ -4,7 +4,6 @@
 __author__ = 'Jia Chao'
 
 import os
-import sys
 import stat
 import shutil
 
@@ -44,7 +43,7 @@ class FileOperation ():
 
         try:
             os.mknod (path, 0o644)
-        except Exception as e:
+        except:
             raise
 
     def copy (self, src, dest):
@@ -64,7 +63,7 @@ class FileOperation ():
 
         try:
             shutil.copytree (src, dest)
-        except Exception as e:
+        except:
             raise
 
     def move (self, src, dest):
@@ -80,7 +79,7 @@ class FileOperation ():
 
         try:
             shutil.move (src, dest)
-        except Exception as e:
+        except:
             raise
         pass
 
@@ -93,7 +92,7 @@ class FileOperation ():
                 shutil.rmtree (path)
             else:
                 os.remove (path)
-        except Exception as e:
+        except:
             raise
 
     def mkdir (self, path):
@@ -105,7 +104,7 @@ class FileOperation ():
 
         try:
             os.makedirs (path, 0o755)
-        except Exception as e:
+        except:
             raise
 
     def listdir (self, path, ftype=0, depth=0, abspath=True):
@@ -127,7 +126,7 @@ class FileOperation ():
             self.depth = _depth
             _depth = 0
 
-        _depeth += 1
+        _depth += 1
         if _abspath:
             def collect (path): self.plist.append (os.path.abspath (path))
         else:
@@ -151,10 +150,10 @@ class FileOperation ():
         '''
         if regular file and accessable
         '''
-        if not self.accessable (src):
+        if not self.accessable (path):
             raise FileExistsError ('file not accessable')
             return False
-        if not self.isregular (src):
+        if not self.isregular (path):
             raise FileExistsError ('not a regular file')
             return False
 

@@ -30,7 +30,7 @@ class DaemonProcess ():
         try:
             if self.lockfile:
                 lockfile = self.lockfile
-        except Exception as e:
+        except:
             name = os.path.splitext (os.path.basename (sys.argv[0]))[0] + '.lock'
             lockfile = '/var/run/' + name
 
@@ -45,7 +45,7 @@ class DaemonProcess ():
                 with open (lockfile, 'r') as f:
                     pid, name = f.read ().split ('\n')[:2]
                     return int (pid)
-            except Exception as e:
+            except:
                 return
 
         return True
@@ -105,7 +105,7 @@ class DaemonProcess ():
                 # exit first parent
                 sys.exit (0)
         except OSError as e:
-            logging.error ("fork #1 failed: %d (%s)" % (e.errno, e,strerror))
+            print ("fork #1 failed: %s" % (e))
             # excit from second parent
             sys.exit (1)
         # decouple from parent environment
@@ -119,7 +119,7 @@ class DaemonProcess ():
             if pid > 0:
                 sys.exit (0)
         except OSError as e:
-            logging.error ("fork #1 failed: %d (%s)" % (e.errno, e,strerror))
+            print ("fork #2 failed: %s" % (e))
             sys.exit (1)
 
     def run (self):

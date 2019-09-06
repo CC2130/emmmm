@@ -4,9 +4,7 @@
 __author__ = 'Jia Chao'
 
 import os
-import sys
 import signal
-import platform
 import logging
 from logging.handlers import RotatingFileHandler
 
