@@ -11,8 +11,8 @@ set PASSWORD abc123
 
 spawn ssh -p $PORT $USER@$HOST
 expect {
-        "yes/no" {send "yes\r";exp_continue;}
-         "*password:*" { send "$PASSWORD\r" }
-		 "*]#*"
+  "yes/no" {send "yes\r";exp_continue;}
+  "*password:*" { send "$PASSWORD\r" }
+  "*]#*"
         }
 interact
