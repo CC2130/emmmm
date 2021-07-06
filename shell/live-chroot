@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Filename: chroot.sh
+# author: 'Jia Chao'
+
+export LC_ALL=C
+export LANG=C
+export LANGUAGE=C
+
+mount_support() {
+    mount proc -t proc ${rootdir}/proc
+    mount sys -t sysfs ${rootdir}/sys
+}
+
+cleanup() {
+    umount ${rootdir}/proc/sys/fs/binfmt_misc > /dev/null 2>&1 || true
+    umount ${rootdir}/proc
+    umount ${rootdir}/sys
+}
+
+_is_root() {
+  if [[ $UID -ne 0 ]]; then
+    echo -e "root privilege is required!"
+    exit 1
+  fi
+}
+
+_help() {
+  echo
+  echo -e "Usage: $0 CHROOT_PATH"
+  exit 1
+}
+
+_path_abs() {
+  if [[ -z $1 ]]; then
+    _help
+  fi
+  rootdir=$(readlink -f $1)
+  if [[ ! -d ${rootdir} ]]; then
+    echo -e "Error: chroot_env ${rootdir} is not exist!"
+    _help
+    exit 2
+  fi
+}
+
+_tmp777() {
+  chmod 777 ${rootdir}/tmp
+}
+
+{
+  _is_root
+
+  _path_abs $*
+
+  trap cleanup 0
+
+  mount_support
+
+  _tmp777
+
+  chroot ${rootdir}
+}
